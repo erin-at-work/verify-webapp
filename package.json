@@ -1,0 +1,29 @@
+{
+  "name": "verify-webapp",
+  "version": "0.1.0",
+  "description": "Sample verify web app",
+  "scripts": {
+    "dev:app": "cd ./a-profile-app && npm run dev",
+    "dev:wallet": "cd ./a-wallet && npm run dev",
+    "dev": "concurrently --kill-others \"npm run dev:app\" \"npm run dev:wallet\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erin-at-work/summer-river-interstitial.git"
+  },
+  "keywords": [
+    "verification",
+    "ethers",
+    "dapp",
+    "ethereum"
+  ],
+  "author": "Erin L",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erin-at-work/summer-river-interstitial/issues"
+  },
+  "homepage": "https://github.com/erin-at-work/summer-river-interstitial#readme",
+  "devDependencies": {
+    "concurrently": "^7.2.1"
+  }
+}
