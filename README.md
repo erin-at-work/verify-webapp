@@ -11,3 +11,9 @@ Install packages:
 Run apps:
 
 ```npm run dev```
+
+Open app:
+
+http://localhost:3001/
+
+![demo](demo.gif)
