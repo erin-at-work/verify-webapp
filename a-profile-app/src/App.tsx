@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -22,7 +23,10 @@ type Resp = {
 const VERIFY_URL = "http://localhost:3000/?token=test_app_token";
 
 function App() {
-  const address = new URLSearchParams(window.location.search).get("address");
+  const search = new URLSearchParams(window.location.search);
+  const address = search.get("address");
+  const sign = search.get("sign");
+  const message = search.get("message");
 
   const [images, setImages] = useState<OpenSeaAsset[]>([]);
   const [profileImg, setProfileImg] = useState("");
@@ -42,11 +46,21 @@ function App() {
       console.error(err);
     }
   }
+
   console.log(address);
 
   useEffect(() => {
-    if (address) {
-      fetchImages(address);
+    if (address && message && sign) {
+      // Verify message by passing in values for message and signature
+      const recoveredAddress = ethers.utils.verifyMessage(message, sign);
+
+      // If recovered message is equal to the address value, fetch images
+      if (recoveredAddress === address) {
+        fetchImages(address);
+      } else {
+        // Error state
+        console.error("Error verifying user");
+      }
     }
   }, [address]);
 

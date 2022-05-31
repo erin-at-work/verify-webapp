@@ -5,8 +5,8 @@ import { fetchToken } from "./util";
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = `Connecting...`;
 
-const YOUR_URL = "http://localhost:3001";
-const DEEP_LINK = "coinbase://wallet/";
+const IOS_UNIVERSAL_LINK = "http://localhost:3001"; // Using web schema for demo purposes
+const ANDROID_DEEP_LINK = "pineapple://";
 export const APP_NAME = "Pineapple Inc.";
 
 const token = new URLSearchParams(window.location.search).get("token");
@@ -36,17 +36,17 @@ async function signEthereum() {
     }
 
     const message = await fetchToken(token);
-    await signer.signMessage(message);
+    const signature = await signer.signMessage(message);
 
     app.innerHTML = `Connected! Redirecting back...`;
 
     // Redirect URL with callback info
     if (isAndroid()) {
       // Handle if Android
-      window.location.href = `${DEEP_LINK}/?address=${address}&sign=${message}`;
+      window.location.href = `${ANDROID_DEEP_LINK}/?address=${address}&sign=${signature}&message=${message}`;
     } else {
-      // Handle if iOS or web
-      window.location.href = `${YOUR_URL}/?address=${address}&sign=${message}`;
+      // Handle if iOS
+      window.location.href = `${IOS_UNIVERSAL_LINK}/?address=${address}&sign=${signature}&message=${message}`;
     }
   } catch (err) {
     // Display error state
@@ -55,6 +55,8 @@ async function signEthereum() {
     if (err instanceof Error) {
       app.innerHTML = `${err.message}. Redirecting back ...`;
     }
+
+    // Go back to app
     setTimeout(() => window.history.back(), 800);
   }
 }
