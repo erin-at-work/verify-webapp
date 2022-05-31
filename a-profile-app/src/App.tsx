@@ -63,21 +63,44 @@ function App() {
   return (
     <div className="card-container flex flex-row mx-auto">
       <div className="w-1/2 pt-12 my-10 h-screen overflow-hidden">
-        <div className="bg-zinc-50 rounded-lg px-4 pb-16 pt-24 w-full shadow-xl mt-16 relative">
+        <div className="bg-zinc-50 text-center rounded-lg px-4 pb-14 pt-24 w-full shadow-xl mt-16 relative">
           <div className="card-profile">
             <div className="card-profile-pic rounded-full bg-gradient-to-r from-purple-500 to-pink-500 overflow-hidden flex justify-center items-center">
               {profileImg ? <img src={profileImg} /> : <></>}
             </div>
           </div>
-          <h1 className="font-bold text-2xl mb-6 mt-3 text-center">
-            Welcome Gorgeous!
+          <h1 className="font-bold text-xs text-gray-500 uppercase mb-8 text-center leading-tight">
+            Welcome to your profile!
           </h1>
-          {!profileImg && images?.length > 0 ? (
-            <div className="font-medium text-center">
-              Select your profile picture ...
-            </div>
+          {!address ? (
+            <button
+              onClick={handleOnClick}
+              className="px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+            >
+              Verify with your wallet
+            </button>
           ) : (
             <></>
+          )}
+          {!profileImg && images?.length > 0 ? (
+            <div className="font-medium text-center">Select your profile picture ...</div>
+          ) : (
+            <></>
+          )}
+          {address && !images?.length && (
+            <div className="text-center">
+              <p className="font-medium">You have no images to select from.</p>
+              Check out{" "}
+              <a
+                href="https://opensea.io/"
+                rel="noreferrer"
+                target="_blank"
+                className="underline decoration-pink-500/30"
+              >
+                OpenSea.io
+              </a>{" "}
+              to purchase and select an NFT as your profile picture.
+            </div>
           )}
         </div>
       </div>
@@ -98,19 +121,13 @@ function App() {
               />
               <div
                 className={`
-                ${
-                  isSelectedImage
-                    ? "opacity-100"
-                    : "opacity-0 hover:opacity-100"
-                }
+                ${isSelectedImage ? "opacity-100" : "opacity-0 hover:opacity-100"}
                 px-8 py-10 relative z-10 w-full bg-white transition duration-200 ease-in-out`}
               >
                 <h2 className="tracking-widest text-xs title-font font-medium text-indigo-500 mb-1">
                   {img.collection.name}
                 </h2>
-                <h1 className="title-font text-sm font-medium text-gray-500 mb-6">
-                  {img.name}
-                </h1>
+                <h1 className="title-font text-sm font-medium text-gray-500 mb-6">{img.name}</h1>
                 <button
                   onClick={() => handleOnSelect(image)}
                   disabled={isSelectedImage}
