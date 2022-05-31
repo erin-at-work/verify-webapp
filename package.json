@@ -5,11 +5,13 @@
   "scripts": {
     "dev:app": "cd ./a-profile-app && npm run dev",
     "dev:wallet": "cd ./a-wallet && npm run dev",
+    "build:app": "cd ./a-profile-app && npm i",
+    "build:wallet": "cd ./a-wallet && npm i",
     "dev": "concurrently --kill-others \"npm run dev:app\" \"npm run dev:wallet\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/erin-at-work/summer-river-interstitial.git"
+    "url": "git+https://github.com/erin-at-work/verify-webapp.git"
   },
   "keywords": [
     "verification",
@@ -20,9 +22,9 @@
   "author": "Erin L",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/erin-at-work/summer-river-interstitial/issues"
+    "url": "https://github.com/erin-at-work/verify-webapp/issues"
   },
-  "homepage": "https://github.com/erin-at-work/summer-river-interstitial#readme",
+  "homepage": "https://github.com/erin-at-work/verify-webapp#readme",
   "devDependencies": {
     "concurrently": "^7.2.1"
   }
