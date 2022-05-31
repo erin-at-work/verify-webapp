@@ -19,7 +19,7 @@ type Resp = {
   assets: OpenSeaAsset[];
 };
 
-const VERIFY_URL = "http://localhost:3000";
+const VERIFY_URL = "http://localhost:3000/?token=test_app_token";
 
 function App() {
   const address = new URLSearchParams(window.location.search).get("address");
@@ -105,7 +105,7 @@ function App() {
         </div>
       </div>
       <div className="flex flex-wrap justify-center w-1/2 my-10 h-screen overflow-y-scroll pb-16">
-        {images.map((img) => {
+        {images?.map((img) => {
           const image = img.image_preview_url || img.collection.image_url;
           const isSelectedImage = profileImg === image;
 

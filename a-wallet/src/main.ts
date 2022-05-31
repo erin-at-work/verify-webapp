@@ -1,12 +1,15 @@
 import { ethers } from "ethers";
 import "./style.css";
+import { fetchToken } from "./util";
 
 const app = document.querySelector<HTMLDivElement>("#app")!;
 app.innerHTML = `Connecting...`;
 
 const YOUR_URL = "http://localhost:3001";
-const APP_NAME = "Pineapple Inc.";
 const DEEP_LINK = "coinbase://wallet/";
+export const APP_NAME = "Pineapple Inc.";
+
+const token = new URLSearchParams(window.location.search).get("token");
 
 declare global {
   interface Window {
@@ -27,21 +30,32 @@ async function signEthereum() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const address = await signer.getAddress();
-    await signer.signMessage(`Verify by signing below to authenticate ${APP_NAME}`);
 
-    // TODO: Sign message with token
+    if (!token) {
+      throw new Error("Not a valid user");
+    }
+
+    const message = await fetchToken(token);
+    await signer.signMessage(message);
 
     app.innerHTML = `Connected! Redirecting back...`;
 
     // Redirect URL with callback info
     if (isAndroid()) {
-      window.location.href = `${DEEP_LINK}?address=${address}`;
+      // Handle if Android
+      window.location.href = `${DEEP_LINK}/?address=${address}&sign=${message}`;
     } else {
-      window.location.href = `${YOUR_URL}/?address=${address}`;
+      // Handle if iOS or web
+      window.location.href = `${YOUR_URL}/?address=${address}&sign=${message}`;
     }
   } catch (err) {
     // Display error state
-    console.log(err);
+    console.error(err);
+
+    if (err instanceof Error) {
+      app.innerHTML = `${err.message}. Redirecting back ...`;
+    }
+    setTimeout(() => window.history.back(), 800);
   }
 }
 
@@ -53,7 +67,7 @@ async function handleEthereum() {
 
     setTimeout(signEthereum, 500);
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
