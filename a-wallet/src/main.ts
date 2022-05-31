@@ -1,7 +1,8 @@
 import { ethers } from "ethers";
-import './style.css'
+import "./style.css";
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+const app = document.querySelector<HTMLDivElement>("#app")!;
+app.innerHTML = `Connecting...`;
 
 const YOUR_URL = "http://localhost:3001";
 const APP_NAME = "Pineapple Inc.";
@@ -26,9 +27,7 @@ async function signEthereum() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const address = await signer.getAddress();
-    await signer.signMessage(
-      `Verify by signing below to authenticate ${APP_NAME}`
-    );
+    await signer.signMessage(`Verify by signing below to authenticate ${APP_NAME}`);
 
     // TODO: Sign message with token
 
@@ -61,7 +60,7 @@ async function handleEthereum() {
 function initListener() {
   console.log("initListener");
   window.addEventListener("ethereum#intialized", handleEthereum, {
-    once: true
+    once: true,
   });
 
   setTimeout(handleEthereum, 5000); // 5 seconds

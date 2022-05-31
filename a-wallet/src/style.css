@@ -1,8 +1,14 @@
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(135deg, #81ffef 10%, #f067b4 100%);
+  height: 100vh;
+}
+
+#app {
   text-align: center;
+  font-size: larger;
   color: #2c3e50;
   margin-top: 60px;
 }
